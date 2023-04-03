@@ -13,9 +13,18 @@
                     <a v-if="profile?.resume" :href="profile?.resume">Resume</a>
                     <br>
                 </div>
-                <p>{{ profile?.graduated }}</p>
-                <p>{{ profile?.class }}</p>
-                <p>{{ profile?.bio }}</p>
+                <div class="p-2">
+                    <p v-if="profile?.graduated"> 🎓</p>
+                    <p>{{ profile?.class }}</p>
+                    <p>{{ profile?.bio }}</p>
+                    <button v-if="account?.id == profile?.id" class="btn btn-outline-dark">Edit</button>
+                </div>
+            </div>
+        </section>
+        <section class="row">
+            <div class="col-10">
+                <button v-show="previousPage" class="btn" @click="changeProfilePage(previousPage)">Previous</button>
+                <button v-show="nextPage" class="btn" @click="changeProfilePage(nextPage)">Next</button>
             </div>
         </section>
         <section class="row justify-content-center" v-for="note in notes" :key="note.id">
@@ -51,6 +60,8 @@ export default {
 
         async function getNotesForProfile() {
             try {
+                AppState.nextPage = null;
+                AppState.previousPage = null;
                 const profileId = route.params.profileId
                 await notesService.getNotesForProfile(profileId)
             } catch (error) {
@@ -68,8 +79,24 @@ export default {
             getNotesForProfile();
         });
         return {
+            route,
             profile: computed(() => AppState.activeProfile),
-            notes: computed(() => AppState.notes)
+            notes: computed(() => AppState.notes),
+            previousPage: computed(() => AppState.previousPage),
+            nextPage: computed(() => AppState.nextPage),
+            account: computed(() => AppState.account),
+
+            async changeProfilePage(url) {
+                try {
+                    logger.log(url, 'LOOK HERE')
+                    const profileId = route.params.profileId
+                    await notesService.changePage(url, profileId)
+                } catch (error) {
+                    logger.log(error.message)
+                    Pop.error(error.message)
+                }
+            }
+
         };
     },
     components: { NoteCard }

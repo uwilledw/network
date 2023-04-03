@@ -8,15 +8,19 @@ class NotesService {
 
     async getNotes() {
         const res = await api.get('api/posts')
-        logger.log(res.data.posts)
+        logger.log(res.data)
         AppState.notes = res.data.posts.map(n => new Note(n))
-        logger.log(AppState.notes, 'appstate notes')
+        AppState.nextPage = res.data.older
+        AppState.previousPage = res.data.newer
+        logger.log(AppState.notes, AppState.nextPage, AppState.previousPage, 'appstate notes')
     }
 
     async getNotesForProfile(profileId) {
         const res = await api.get(`api/posts?creatorId=${profileId}`)
         logger.log(res.data, 'notes for profile')
         AppState.notes = res.data.posts.map(n => new Note(n))
+        AppState.nextPage = res.data.older
+        AppState.previousPage = res.data.newer
         logger.log(AppState.notes)
     }
 
@@ -25,7 +29,8 @@ class NotesService {
         logger.log('search note', res.data)
         AppState.query = query.query
         AppState.notes = res.data.posts.map(n => new Note(n))
-
+        AppState.nextPage = res.data.older
+        AppState.previousPage = res.data.newer
     }
 
     async searchProfileNotes(query, profileId) {
@@ -43,6 +48,32 @@ class NotesService {
     async createNote(noteData) {
         const res = await api.post('api/posts', noteData)
         logger.log(res.data)
+        const newNote = new Note(res.data)
+        AppState.notes.push(newNote)
+    }
+
+    async deleteNote(noteId) {
+        const res = await api.delete(`api/posts/${noteId}`)
+        logger.log(res.data, 'deleted note')
+
+    }
+
+    async changePage(url) {
+        logger.log(url)
+        const res = await api.get(url)
+        logger.log('changing page', res.data)
+        AppState.nextPage = res.data.older
+        AppState.previousPage = res.data.newer
+        AppState.notes = res.data.posts
+    }
+
+    async changeProfilePage(url, profileId) {
+        logger.log(url)
+        const res = await api.get(url, { params: { creatorId: profileId } })
+        logger.log('changing page', res.data.posts)
+        AppState.nextPage = res.data.older
+        AppState.previousPage = res.data.newer
+        AppState.notes = res.data.posts
     }
 }
 

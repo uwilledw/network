@@ -1,5 +1,11 @@
 <template>
   <div class="container-fluid">
+    <section class="row">
+      <div class="col-10">
+        <button v-show="previousPage" class="btn" @click="changePage(previousPage)">Previous</button>
+        <button v-show="nextPage" class="btn" @click="changePage(nextPage)">Next</button>
+      </div>
+    </section>
     <section class="row justify-content-center" v-for="note in notes" :key="note.id">
       <NoteCard :note="note" />
     </section>
@@ -30,8 +36,18 @@ export default {
 
 
     return {
-      notes: computed(() => AppState.notes)
+      notes: computed(() => AppState.notes),
+      previousPage: computed(() => AppState.previousPage),
+      nextPage: computed(() => AppState.nextPage),
 
+      async changePage(url) {
+        try {
+          await notesService.changePage(url)
+        } catch (error) {
+          logger.log(error.message)
+          Pop.error(error.message)
+        }
+      }
 
     }
   },
