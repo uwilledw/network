@@ -1,9 +1,15 @@
 <template>
   <div class="container-fluid">
-    <section class="row">
-      <div class="col-10">
-        <button v-show="previousPage" class="btn" @click="changePage(previousPage)">Previous</button>
-        <button v-show="nextPage" class="btn" @click="changePage(nextPage)">Next</button>
+    <section class="row justify-content-around">
+      <div class="col-2 mx-2 p-4">
+        <div v-show="previousPage" class="text-start">
+          <button class=" mx-2 btn btn-outline-dark" @click="changePage(previousPage)">Previous</button>
+        </div>
+      </div>
+      <div class="col-2 mx-2 p-4">
+        <div v-show="nextPage" class="text-end">
+          <button class=" mx-2 btn btn-outline-dark" @click="changePage(nextPage)">Next</button>
+        </div>
       </div>
     </section>
     <section class="row justify-content-center" v-for="note in notes" :key="note.id">

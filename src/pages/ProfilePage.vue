@@ -2,29 +2,39 @@
     <div class="container-fluid">
         <section class="row justify-content-center my-5">
             <div class="col-10 elevation-3">
-                <img class="cover-img" :src="profile?.coverImg" alt="">
+                <img class="cover-img mb-3" :src="profile?.coverImg" alt="">
                 <div>
-                    <img class="profile-img" :src="profile?.picture" alt="">
-                    <h3>{{ profile?.name }}</h3>
-                    <a v-if="profile?.github" :href="profile?.github">Github</a>
-                    <br>
-                    <a v-if="profile?.linkedin" :href="profile?.linkedin">Linkedin</a>
-                    <br>
-                    <a v-if="profile?.resume" :href="profile?.resume">Resume</a>
-                    <br>
+                    <div class="d-flex align-items-center">
+
+                        <img class="profile-img mx-3" :src="profile?.picture" alt="">
+                        <h3>{{ profile?.name }}</h3>
+                    </div>
+                    <div class="fs-3 my-2">
+                        <a class="mx-2" v-if="profile?.github" :href="profile?.github"> <i class="mdi mdi-github"></i> </a>
+                        <a class="mx-2" v-if="profile?.linkedin" :href="profile?.linkedin"><i
+                                class="mdi mdi-linkedin"></i></a>
+                        <a class="mx-2" v-if="profile?.resume" :href="profile?.resume"><i class="mdi mdi-folder"></i></a>
+                    </div>
                 </div>
                 <div class="p-2">
-                    <p v-if="profile?.graduated"> 🎓</p>
-                    <p>{{ profile?.class }}</p>
+                    <p>{{ profile?.class }} <span v-if="profile?.graduated">🎓</span></p>
                     <p>{{ profile?.bio }}</p>
-                    <button v-if="account?.id == profile?.id" class="btn btn-outline-dark">Edit</button>
+                    <router-link :to="{ name: 'Account', }">
+                        <button v-if="account?.id == profile?.id" class="btn btn-outline-dark">Edit</button>
+                    </router-link>
                 </div>
             </div>
         </section>
-        <section class="row">
-            <div class="col-10">
-                <button v-show="previousPage" class="btn" @click="changeProfilePage(previousPage)">Previous</button>
-                <button v-show="nextPage" class="btn" @click="changeProfilePage(nextPage)">Next</button>
+        <section class="row justify-content-around">
+            <div class="col-2 px-5">
+                <div class="text-start" v-show="previousPage">
+                    <button class="btn btn-outline-dark" @click="changeProfilePage(previousPage)">Previous</button>
+                </div>
+            </div>
+            <div class="col-2 px-5">
+                <div class="text-end" v-show="nextPage">
+                    <button class="btn btn-outline-dark" @click="changeProfilePage(nextPage)">Next</button>
+                </div>
             </div>
         </section>
         <section class="row justify-content-center" v-for="note in notes" :key="note.id">

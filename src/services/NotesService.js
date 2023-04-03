@@ -47,14 +47,18 @@ class NotesService {
 
     async createNote(noteData) {
         const res = await api.post('api/posts', noteData)
-        logger.log(res.data)
+        logger.log(res.data, 'note created')
         const newNote = new Note(res.data)
-        AppState.notes.push(newNote)
+        logger.log(newNote, 'new note here')
+        AppState.notes.splice(0, 0, newNote)
+        logger.log(AppState.notes, 'appstate notes after new')
     }
 
     async deleteNote(noteId) {
         const res = await api.delete(`api/posts/${noteId}`)
         logger.log(res.data, 'deleted note')
+        AppState.notes = AppState.notes.filter(n => n.id != noteId)
+        logger.log(AppState.notes)
 
     }
 

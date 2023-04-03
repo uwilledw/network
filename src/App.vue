@@ -1,14 +1,16 @@
 <template>
   <header class="sticky-top">
-    <Navbar />
+    <!-- <Navbar /> -->
   </header>
   <main class="container-fluid">
     <section class="row">
-      <div class="col-9">
-
+      <div class="col-md-9 p-0">
+        <div class="sticky-top">
+          <Navbar />
+        </div>
         <router-view />
       </div>
-      <div class="col-3 bg-success">
+      <div class="col-md-3 bg-success">
         <AdsPost />
       </div>
     </section>
