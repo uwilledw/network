@@ -68,7 +68,7 @@ class NotesService {
         logger.log('changing page', res.data)
         AppState.nextPage = res.data.older
         AppState.previousPage = res.data.newer
-        AppState.notes = res.data.posts
+        AppState.notes = res.data.posts.map(n => new Note(n))
     }
 
     async changeProfilePage(url, profileId) {

@@ -1,8 +1,9 @@
 <template>
     <div class="sticky-top">
         <div class="pt-2">
-            <button v-show="account.id" data-bs-toggle="modal" data-bs-target="#modal" class="btn btn-info"> Post <i
-                    class="mdi mdi-plus"></i></button>
+            <button v-show="active == null || account.id == active.id" data-bs-toggle="modal" data-bs-target="#modal"
+                class="btn btn-info">
+                Post <i class="mdi mdi-plus"></i></button>
         </div>
         <div class="my-2 text-center" v-for="ad in ads">
             <img class="img-fluid" :src="ad.square" alt="">
@@ -43,7 +44,8 @@ export default {
 
             note: computed(() => AppState.notes),
             account: computed(() => AppState.account),
-            ads: computed(() => AppState.ads)
+            ads: computed(() => AppState.ads),
+            active: computed(() => AppState.activeProfile)
         }
     },
     components: { ModalComp, NoteForm }

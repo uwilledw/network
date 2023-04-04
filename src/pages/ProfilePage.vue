@@ -2,11 +2,11 @@
     <div class="container-fluid">
         <section class="row justify-content-center my-5">
             <div class="col-10 elevation-3">
-                <img class="cover-img mb-3" :src="profile?.coverImg" alt="">
+                <img class="cover-img mb-3" :src="profile?.coverImg" alt="cover Img">
                 <div>
                     <div class="d-flex align-items-center">
 
-                        <img class="profile-img mx-3" :src="profile?.picture" alt="">
+                        <img class="profile-img mx-3" :src="profile?.picture" alt="profile picture">
                         <h3>{{ profile?.name }}</h3>
                     </div>
                     <div class="fs-3 my-2">

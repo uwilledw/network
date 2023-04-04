@@ -4,7 +4,10 @@
             <button @click="deleteNote(note.id)" v-if="account.id == note.creator.id" class="btn btn-danger">Delete</button>
             <div class="text-start d-flex m-3 p-2 rounded align-items-center">
                 <p>
-                    <img class="profile-img" :src="note.creator.picture" alt="">
+                    <img v-if="note.creator.picture" class="profile-img" :src="note.creator.picture" alt="">
+                    <img v-else class="profile-img"
+                        src="https://images.unsplash.com/photo-1605199820234-0811f25a3b13?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+                        alt="">
                     {{ note.creator.name }}
                 </p>
             </div>
@@ -14,7 +17,10 @@
             <router-link :to="{ name: 'Profile', params: { profileId: note.creator.id } }">
                 <div class=" text-start d-flex m-3 p-2 selectable rounded align-items-center justify-content-between">
                     <p>
-                        <img class="profile-img" :src="note.creator.picture" alt="">
+                        <img v-if="note.creator.picture" class="profile-img" :src="note.creator.picture" alt="">
+                        <img v-else class="profile-img"
+                            src="https://images.unsplash.com/photo-1605199820234-0811f25a3b13?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+                            alt="">
                         {{ note.creator.name }}
                     </p>
                 </div>
@@ -42,7 +48,7 @@ import { notesService } from '../services/NotesService.js';
 export default {
 
     props: {
-        note: { required: true }
+        note: { required: true, type: Note }
     },
 
     setup() {

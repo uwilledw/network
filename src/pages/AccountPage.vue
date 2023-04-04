@@ -15,7 +15,7 @@
       <label for="email">email</label>
     </div>
     <div class="form-floating mb-3">
-      <input type="text" v-model="editable.picture" class="form-control" id="picture" placeholder="picture">
+      <input required type="url" v-model="editable.picture" class="form-control" id="picture" placeholder="picture">
       <label for="picture">picture</label>
     </div>
     <div class="form-floating mb-3">
